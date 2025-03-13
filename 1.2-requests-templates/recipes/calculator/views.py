@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 DATA = {
     'omlet': {
@@ -19,12 +20,43 @@ DATA = {
     # можете добавить свои рецепты ;)
 }
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+# def recipe(request, dish, servings=1):
+#     recipe_data = DATA.get(dish)
+
+#     if recipe_data:
+#         context = {'recipe': {}}
+#         for ingredient, amount in recipe_data.items():
+#             context['recipe'][ingredient] = amount * servings
+#         context['dish'] = dish
+#         return render(request, 'calculator/index.html', context)
+#     else:
+#         return HttpResponse('Рецепт не найден', status=404)
+
+# def home(request):
+#     return render(request, 'calculator/index.html', context={})
+
+
+def recipe(request, dish=None):
+    if dish:
+        servings = request.GET.get('servings', 1)
+        try:
+            servings = int(servings)
+            if servings <= 0:
+                servings = 1
+        except ValueError:
+            servings = 1
+
+        recipe_data = DATA.get(dish)
+
+        if recipe_data:
+            context = {'recipe': {}}
+            for ingredient, amount in recipe_data.items():
+                context['recipe'][ingredient] = amount * servings
+            context['dish'] = dish
+            return render(request, 'calculator/index.html', context) # Изменено здесь
+        else:
+            return HttpResponse('Рецепт не найден', status=404)
+    else:
+        context = {'recipe': list(DATA.keys())}
+        return render(request, 'calculator/index.html', context) # Изменено здесь
+    

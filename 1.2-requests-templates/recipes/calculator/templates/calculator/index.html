@@ -5,10 +5,43 @@
     <title>Рецепты</title>
 </head>
 <body>
-{% for ingredient, amount in recipe.items %}
-    <p>{{ ingredient }}: {{ amount }}</p>
-{% empty %}
-    <p>Такого рецепта не знаю :(</p>
-{% endfor %}
+    {% if recipe.items %}
+    {% for ingredient, amount in recipe.items %}
+        <p>{{ ingredient }}: {{ amount }}</p>
+    {% empty %}
+        <p>Такого рецепта не знаю :</p>
+    {% endfor %}
+{% else %}
+    <h1>Добро пожаловать на страницу рецептов!</h1>
+    <p>Доступные рецепты:</p>
+    <ul>
+        {% for dish in recipe %}
+            <li><a href="{{ dish }}/1/">{{ dish }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
 </body>
 </html>
+
+
+
+
+<!-- 
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+    <h1>Добро пожаловать на страницу рецептов!</h1>
+    <p>Доступные рецепты:</p>
+    <ul>
+        <li><a href="/omlet/">Омлет</a></li>
+        <li><a href="/pasta/">Паста</a></li>
+        <li><a href="/buter/">Бутерброд</a></li>
+    </ul>
+</body>
+</html>
+ -->

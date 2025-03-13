@@ -3,7 +3,6 @@ from django.shortcuts import render, reverse
 import os
 from datetime import datetime
 
-
 def home_view(request):
     template_name = 'app/home.html'
     # впишите правильные адреса страниц, используя
