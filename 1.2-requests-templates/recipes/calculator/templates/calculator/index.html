@@ -6,6 +6,7 @@
 </head>
 <body>
     {% if recipe.items %}
+    <p><a href="/">Вернуться на главную</a></p>
     {% for ingredient, amount in recipe.items %}
         <p>{{ ingredient }}: {{ amount }}</p>
     {% empty %}
@@ -16,7 +17,7 @@
     <p>Доступные рецепты:</p>
     <ul>
         {% for dish in recipe %}
-            <li><a href="{{ dish }}/1/">{{ dish }}</a></li>
+            <li><a href="/recipe/{{ dish }}/1/">{{ dish }}</a></li>
         {% endfor %}
     </ul>
 {% endif %}

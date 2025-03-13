@@ -19,6 +19,6 @@ from calculator import views
 
 urlpatterns = [
     # path('admin/',admin.site.urls),
-    path('<str:dish>/',views.recipe,name='recipe'),
-    path('', views.recipe, name='home'),
+    path('recipe/<str:dish>/<int:servings>/', views.recipe, name='recipe'),
+    path('', views.home, name='home'),
 ]
