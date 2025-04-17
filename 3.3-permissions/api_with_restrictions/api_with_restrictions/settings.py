@@ -76,19 +76,39 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    
+    'DEFAULT_THROTTLE_CLASSES': [
+        # Классы для ограничения запросов
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        # Лимиты запросов
+        'anon': '10/minute', # для неавторизованных
+        'user': '20/minute'  # для авторизованных
+    },
+    'DEFAULT_FILTER_BACKENDS': [
+        # Включаем бэкенд для django-filter
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
 }
 
 WSGI_APPLICATION = 'api_with_restrictions.wsgi.application'
-
+AUTH_USER_MODEL = 'auth.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'netology_classified_ads',
+        'NAME': 'advertisements_db',  
+        'USER': 'postgres',       
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

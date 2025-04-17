@@ -17,12 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views as authtoken_views 
+
+from advertisements.views import AdvertisementViewSet 
 
 router = DefaultRouter()
-# TODO: подключите `AdvertisementViewSet`
+router.register('advertisements', AdvertisementViewSet, basename='advertisements') 
 
 
 urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('api/api-token-auth/', authtoken_views.obtain_auth_token),
+    path('api/auth/', include('rest_framework.urls')),
+
 ]
